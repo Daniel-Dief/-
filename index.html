@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Convite Especial ❤️</title>
     <style>
         body {
@@ -16,13 +16,15 @@
             margin: 0;
             overflow: hidden;
             text-align: center;
+            touch-action: manipulation;
         }
 
         h1 {
             color: #d32f2f;
-            font-size: 2.5rem;
+            font-size: 2.3rem;
             margin-bottom: 30px;
             padding: 0 20px;
+            transition: all 0.5s ease;
         }
 
         .container-botoes {
@@ -40,6 +42,7 @@
             border-radius: 10px;
             cursor: pointer;
             transition: transform 0.2s;
+            touch-action: manipulation;
         }
 
         #sim {
@@ -58,38 +61,48 @@
             color: white;
             position: absolute;
             right: 20%;
-            /* Transição suave para o movimento */
             transition: left 0.1s ease, top 0.1s ease; 
+            user-select: none;
+            -webkit-user-select: none;
         }
     </style>
 </head>
 <body>
 
-    <h1>Topa sair comigo hoje a noite em um date dos namorados? 🌹</h1>
+    <h1 id="titulo-principal">Topa sair comigo hoje a noite em um date dos namorados? 🌹</h1>
 
-    <div class="container-botoes">
+    <div class="container-botoes" id="container-botoes">
         <button id="sim" onclick="aceitou()">SIM!</button>
-        <button id="nao" onmouseover="fugir(this)" onclick="fugir(this)">NÃO</button>
+        <button id="nao" onmouseover="fugir(event)" ontouchstart="fugir(event)" onclick="fugir(event)">NÃO</button>
     </div>
 
     <script>
-        function fugir(botaoNao) {
-            // Calcula os limites da tela para o botão não fugir para fora dela
-            const larguraJanela = window.innerWidth - botaoNao.offsetWidth;
-            const alturaJanela = window.innerHeight - botaoNao.offsetHeight;
+        function fugir(event) {
+            // Evita o comportamento padrão do clique/toque e impede o travamento
+            event.preventDefault(); 
             
-            // Gera posições aleatórias
-            const novoX = Math.random() * larguraJanela;
-            const novoY = Math.random() * alturaJanela;
+            const botaoNao = document.getElementById('nao');
             
-            // Muda o comportamento do botão para flutuar na tela toda
+            // Margem de segurança para o botão não colar 100% na borda da tela
+            const margem = 20; 
+            const larguraJanela = window.innerWidth - botaoNao.offsetWidth - margem;
+            const alturaJanela = window.innerHeight - botaoNao.offsetHeight - margem;
+            
+            // Sorteia a posição garantindo que fique dentro dos limites visíveis
+            const novoX = Math.max(margem, Math.random() * larguraJanela);
+            const novoY = Math.max(margem, Math.random() * alturaJanela);
+            
             botaoNao.style.position = 'fixed';
             botaoNao.style.left = novoX + 'px';
             botaoNao.style.top = novoY + 'px';
         }
 
         function aceitou() {
-            alert('Eba! 🥰 Destino selado, te vejo mais tarde!');
+            // Altera o texto principal
+            document.getElementById('titulo-principal').innerHTML = 'Eba! 🥰 Destino selado, te vejo mais tarde! ❤️';
+            
+            // Esconde os botões após o "SIM" ser clicado
+            document.getElementById('container-botoes').style.display = 'none';
         }
     </script>
 </body>
