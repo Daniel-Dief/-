@@ -58,7 +58,7 @@
             color: white;
             position: absolute;
             right: 20%;
-            /* Transição suave para o botão não parecer que sumiu do nada */
+            /* Transição suave para o movimento */
             transition: left 0.1s ease, top 0.1s ease; 
         }
     </style>
@@ -69,13 +69,11 @@
 
     <div class="container-botoes">
         <button id="sim" onclick="aceitou()">SIM!</button>
-        <button id="nao" onmouseover="fugir()">NÃO</button>
+        <button id="nao" onmouseover="fugir(this)" onclick="fugir(this)">NÃO</button>
     </div>
 
     <script>
-        function fugir() {
-            const botaoNao = document.getElementById('nao');
-            
+        function fugir(botaoNao) {
             // Calcula os limites da tela para o botão não fugir para fora dela
             const larguraJanela = window.innerWidth - botaoNao.offsetWidth;
             const alturaJanela = window.innerHeight - botaoNao.offsetHeight;
